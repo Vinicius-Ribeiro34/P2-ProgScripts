@@ -4,10 +4,11 @@
     <div class="container">
         <br>
         <div class="jumbotron">
-            <h1 class="display-4">Programação de Scripts</h1>
-            <p class="lead">Esse é o Projeto Js02</p>
-            <hr class="my-4">
+            <h1 class="display-4">Bem-vindo</h1>
             <p>Projeto desenvolvido pelos alunos da Fatec de Mogi Mirim</p>
+            <hr class="my-4">
+            <p>Descrição detalhada aqui!</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">Leia Mais</a>
         </div>
         <% articles.forEach(article => { %>
             <div class="card">
@@ -15,10 +16,18 @@
                     <h2><%= article.title %></h2>
                 </div>
                 <div class="card-body">
-                    <a href="#" class="btn btn-primary">Ler Artigo</a>
+                    <a href="/<%= article.slug %>" class="btn btn-success">Ler Artigo</a>
                 </div>
             </div>
         <% }) %>
+
+        <div class="row">
+            <div class="col col-12">
+                <a style="float: right;" href="/articles/page/2">Next >>></a>
+            </div>
+            <hr>
+        </div>
+        <hr>
     </div>
 </body>
 <%- include ('partials/footer.ejs') -%>

@@ -1,16 +1,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const connection = require("./database/database");
 
 const app = express();
 
 const categoriesController = require("./categories/CategoriesController");
 const articlesController = require("./articles/ArticlesController");
+const usersController = require("./users/UserController");
 
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
+const User = require("./users/User");
 
 app.set('view engine', 'ejs');
+
+app.use(session({
+    secret: "textoqualquer", cookie: {maxAge: 30000}
+}))
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -30,6 +37,7 @@ app.use(express.static('public'));
 
 app.use("/",categoriesController);
 app.use("/",articlesController);
+app.use("/", usersController);
 
 app.get("/", (req, res) => {
     Article.findAll({
@@ -65,7 +73,7 @@ app.get("/:slug", (req, res) => {
     });
 });
 
-app.get("/:slug", (req, res) => {
+app.get("/category/:slug", (req, res) => {
     var slug = req.params.slug;
 
     Category.findOne({
@@ -76,7 +84,8 @@ app.get("/:slug", (req, res) => {
     }).then(category => {
         if (category != undefined) {
             Category.findAll().then(categories => {
-                res.render("article", {article: category.article, categories:categories});
+                console.log({articles: category.articles, categories:categories})
+                res.render("index", {articles: category.articles, categories:categories});
             }); 
         } else {
             res.redirect("/");
